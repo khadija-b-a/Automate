@@ -1,0 +1,36 @@
+CC = gcc
+CFLAGS = -c -Wall
+OBJS = eval.o token.o pile.o ABR.o val.o
+
+.PHONY: test
+test: clean eval 
+	./eval "1.0+1=>NON0" "(1.1)+(0.NON(NON1))<=>1" "NON  NON NON1" "(1=>(NON (1+0).1)" "(1=>(NON (1+0).A))"
+
+compile: eval 
+	./eval
+
+eval: $(OBJS)
+	$(CC) -o $@ $(OBJS)
+
+eval.o: eval.c *.h
+	$(CC) $(CFLAGS) $<
+
+%.o: %.c %.h
+	$(CC) $(CFLAGS) $<
+
+.PHONY: clean
+clean: 
+	rm -f $(OBJS)
+	rm -f eval
+	ls -l
+
+DOSSIER = BENAYED_Khadija_21916566-DEMANGE_Noe_21905012
+.PHONY: zip
+zip:
+	rm -rf $(DOSSIER)
+	rm -f $(DOSSIER).zip
+	mkdir $(DOSSIER)
+	cp *.c *.h Makefile $(DOSSIER)
+	zip -r $(DOSSIER).zip $(DOSSIER)
+	rm -rf $(DOSSIER)
+	ls -l
